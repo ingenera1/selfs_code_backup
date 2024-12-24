@@ -21,7 +21,8 @@ void calculate_SJF(Process processes[], int n) {
     float current_time = 0;  // 当前时间
     int is_completed[MAX_PROCESSES];
     // 初始化
-    for (int i = 0; i < MAX_PROCESSES; i++) {
+    int i;
+    for (i = 0; i < MAX_PROCESSES; i++) {
         is_completed[i] = 0;
     }
 
@@ -29,7 +30,8 @@ void calculate_SJF(Process processes[], int n) {
         // 寻找已到达的进程中的最优先进程
         if (min_index != -1 && fabs(processes[min_index].remaining_time - 0) < EP) {
             min_index = -1;
-            for (int i = 0; i < n; i++) {
+            int i;
+            for (i = 0; i < n; i++) {
                 if (processes[i].arrival_time <= current_time &&  // 该进程已到来
                     !is_completed[i] &&  // 该进程未完成
                     (min_index == -1 || processes[i].remaining_time < processes[min_index].remaining_time)) {  // 当前未确定最优先进程或该进程优先级更高
@@ -42,7 +44,8 @@ void calculate_SJF(Process processes[], int n) {
         if (min_index == -1) {
             float min_arrival_time = processes[0].arrival_time;
             min_index = 0;
-            for (int i = 0; i < n; i++) {
+            int i;
+            for (i = 0; i < n; i++) {
                 if (processes[i].arrival_time < min_arrival_time && !is_completed[i]) {
                     min_arrival_time = processes[i].arrival_time;
                     min_index = i;
@@ -54,8 +57,8 @@ void calculate_SJF(Process processes[], int n) {
         // 下一个时间节点(当前进程处理完或者被抢占)
         float next_time = current_time + processes[min_index].remaining_time;
         int prior_index = min_index;
-
-        for (int i = 0; i < n; i++) {
+        int i;
+        for (i = 0; i < n; i++) {
             // 如果有进程在当前进程处理完成之前到达
             if (processes[i].arrival_time < next_time && processes[i].arrival_time > current_time && !is_completed[i]  // 已到达, 未完成
             ) {
@@ -92,14 +95,15 @@ void calculate_RR(Process processes[], int n, int time_quantum) {
     int completed = 0, current_time = 0;
     int is_completed[MAX_PROCESSES];
     // 初始化
-    for (int i = 0; i < MAX_PROCESSES; i++) {
+    int i;
+    for (i = 0; i < MAX_PROCESSES; i++) {
         is_completed[i] = 0;
     }
 
     while (completed < n) {
         int found_process = 0;
-
-        for (int i = 0; i < n; i++) {
+        int i;
+        for (i = 0; i < n; i++) {
             // 如果该进程已到达且没有完成
             if (processes[i].arrival_time <= current_time && !is_completed[i]) {
                 found_process = 1;
@@ -124,7 +128,8 @@ void calculate_RR(Process processes[], int n, int time_quantum) {
         // 若当前时间没有任何进程到达，直接推进到下一个到达时间
         if (!found_process) {
             int next_arrival_time = INT_MAX;
-            for (int i = 0; i < n; i++) {
+            int i;
+            for (i = 0; i < n; i++) {
                 if (!is_completed[i] && processes[i].arrival_time > current_time) {
                     next_arrival_time = fmin(next_arrival_time, processes[i].arrival_time);
                 }
@@ -141,7 +146,8 @@ void print_results(Process processes[], int n) {
     float total_turnaround_time = 0.0, total_weighted_turnaround_time = 0.0;
     
     printf("进程  完成时间  周转时间  带权周转时间\n");
-    for (int i = 0; i < n; i++) {
+    int i;
+    for (i = 0; i < n; i++) {
         printf("%c     %.2f     %.2f     %.2f\n", 
                 processes[i].name, 
                 processes[i].completion_time, 
@@ -171,7 +177,8 @@ int main() {
     print_results(processes, MAX_PROCESSES);
     
     // 重新初始化进程剩余时间
-    for (int i = 0; i < MAX_PROCESSES; i++) {
+    int i;
+    for (i = 0; i < MAX_PROCESSES; i++) {
         processes[i].remaining_time = processes[i].service_time;
         processes[i].completion_time = 0;
         processes[i].turnaround_time = 0;
