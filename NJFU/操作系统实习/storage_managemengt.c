@@ -34,7 +34,8 @@ int instructions[OUTER_MEMORY_SIZE];
 
 // 初始化指令序列,每页含10条指令
 void initializeInstructions() {
-    for (int i = 0; i < OUTER_MEMORY_SIZE; i++) {
+    int i;
+    for (i = 0; i < OUTER_MEMORY_SIZE; i++) {
         instructions[i] = i / PAGE_SIZE;
     }
 }
@@ -128,7 +129,8 @@ int LRU_simulate(int memory_pages) {
     int total = 0; // 记录总访问次数
     
     // 模拟页面访问过程
-    for (int i = 0; i < OUTER_MEMORY_SIZE; i++) {
+    int i;
+    for (i = 0; i < OUTER_MEMORY_SIZE; i++) {
         int instruction = generateRandomInstruction(); // 生成随机指令
         total++; // 增加总访问次数
         int page = instructions[instruction]; // 获取访问的页面
@@ -158,7 +160,8 @@ void Clock_init(struct Clock *clock) {
     clock->pointer = 0;
     clock->size = 0;
     // 将所有页面指针初始化为NULL
-    for (int i = 0; i < MAX_MEMORY; i++) {
+    int i;
+    for (i = 0; i < MAX_MEMORY; i++) {
         clock->pages[i] = NULL;
     }
 }
@@ -186,7 +189,8 @@ int Clock_simulate(int memory_pages) {
     int total = 0; // 记录总访问次数
 
     // 模拟访问页面的过程
-    for (int i = 0; i < OUTER_MEMORY_SIZE; i++) {
+    int i;
+    for (i = 0; i < OUTER_MEMORY_SIZE; i++) {
         // 生成随机的指令以访问页面
         int instruction = generateRandomInstruction();
         total++;
@@ -194,7 +198,8 @@ int Clock_simulate(int memory_pages) {
         bool pageHit = false; // 标记页面是否命中
 
         // 检查页面是否在Clock中
-        for (int j = 0; j < clock.size; j++) {
+        int j;
+        for (j = 0; j < clock.size; j++) {
             if (clock.pages[j]->pagenum == page) {
                 // 如果命中,更新使用位并增加命中次数
                 clock.pages[j]->use_bit = 1;
@@ -234,7 +239,8 @@ int Clock_simulate(int memory_pages) {
 int main() {
     srand(time(NULL));
     initializeInstructions();
-    for (int memory_pages = 4; memory_pages <= 40; memory_pages++) {
+    int memory_pages;
+    for (memory_pages = 4; memory_pages <= 40; memory_pages++) {
         printf("\n内存大小: %d pages\n", memory_pages);
         
         int lru_hits = LRU_simulate(memory_pages);
